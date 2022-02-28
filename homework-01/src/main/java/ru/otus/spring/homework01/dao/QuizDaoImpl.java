@@ -8,9 +8,10 @@ import ru.otus.spring.homework01.domain.Quiz;
 import java.util.*;
 
 public class QuizDaoImpl implements QuizDao {
-    private static final String TAB_DELIMITER = "\\|";
+    private static final String CSV_COLUMNS_DELIMITER = "\\|";
 
     private final String resourceName;
+
 
     public QuizDaoImpl(String resourceName) {
         this.resourceName = resourceName;
@@ -19,7 +20,8 @@ public class QuizDaoImpl implements QuizDao {
     @Override
     public Quiz findQuiz() {
         Set<Question> questions = new LinkedHashSet<>();
-        try (Scanner scanner = new Scanner(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream(resourceName)))) {
+        try (Scanner scanner =
+                     new Scanner(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream(resourceName)))) {
             while (scanner.hasNextLine()) {
                 Question question = getQuestionDataFromString(scanner.nextLine());
                 if (question != null) {
@@ -34,17 +36,19 @@ public class QuizDaoImpl implements QuizDao {
     private Question getQuestionDataFromString(String source) {
         Question question = null;
         try (Scanner rowScanner = new Scanner(source)) {
-            rowScanner.useDelimiter(TAB_DELIMITER);
+            rowScanner.useDelimiter(CSV_COLUMNS_DELIMITER);
 
             int index = 0;
             String questionText = null;
             List<Answer> answers = new LinkedList<>();
             while (rowScanner.hasNext()) {
-                String data = rowScanner.next();
-                if (index == 0) {
-                    questionText = data;
-                } else {
-                    answers.add(new Answer(data));
+                String data = rowScanner.next().trim();
+                if (StringUtils.hasLength(data)) {
+                    if (index == 0) {
+                        questionText = data;
+                    } else {
+                        answers.add(new Answer(data));
+                    }
                 }
                 index++;
             }

@@ -4,9 +4,9 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>ru.otus.spring</groupId>
     <artifactId>homework-01</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <name>Homework 01</name>
-    <description>Homework 01</description>
+    <version>1.0.0</version>
+    <name>Spring Developer - Homework 01</name>
+    <description>OTUS Spring Developer - Homework 01</description>
     <packaging>jar</packaging>
 
     <properties>
