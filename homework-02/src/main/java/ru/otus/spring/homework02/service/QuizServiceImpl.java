@@ -1,8 +1,8 @@
-package ru.otus.spring.homework01.service;
+package ru.otus.spring.homework02.service;
 
 import org.springframework.stereotype.Service;
-import ru.otus.spring.homework01.dao.QuizDao;
-import ru.otus.spring.homework01.domain.Quiz;
+import ru.otus.spring.homework02.dao.QuizDao;
+import ru.otus.spring.homework02.domain.Quiz;
 
 @Service
 public class QuizServiceImpl implements QuizService {

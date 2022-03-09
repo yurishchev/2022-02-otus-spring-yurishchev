@@ -1,11 +1,12 @@
-package ru.otus.spring.homework01;
+package ru.otus.spring.homework02;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import ru.otus.spring.homework01.dao.QuizDaoImpl;
-import ru.otus.spring.homework01.domain.Answer;
-import ru.otus.spring.homework01.domain.Question;
-import ru.otus.spring.homework01.domain.Quiz;
+import ru.otus.spring.homework02.config.QuizConfig;
+import ru.otus.spring.homework02.dao.QuizDaoImpl;
+import ru.otus.spring.homework02.domain.Answer;
+import ru.otus.spring.homework02.domain.Question;
+import ru.otus.spring.homework02.domain.Quiz;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -16,11 +17,13 @@ class QuizDaoImplTest {
     public static final String TEST_INCORRECT_RESOURCE_NAME = "test-incorrect-questionnaire.csv";
 
     private QuizDaoImpl quizDao;
+    private final QuizConfig quizConfig = new QuizConfig();
 
 
     @Test
     void testIncorrectQuiz() {
-        quizDao = new QuizDaoImpl(TEST_INCORRECT_RESOURCE_NAME);
+        quizConfig.setQuizFileName(TEST_INCORRECT_RESOURCE_NAME);
+        quizDao = new QuizDaoImpl(quizConfig);
         Quiz quiz = quizDao.findQuiz();
 
         Assertions.assertEquals(0, quiz.getQuestions().size());
@@ -28,7 +31,8 @@ class QuizDaoImplTest {
 
     @Test
     void testNormalQuiz() {
-        quizDao = new QuizDaoImpl(TEST_RESOURCE_NAME);
+        quizConfig.setQuizFileName(TEST_RESOURCE_NAME);
+        quizDao = new QuizDaoImpl(quizConfig);
         Quiz quiz = quizDao.findQuiz();
 
         Assertions.assertEquals(5, quiz.getQuestions().size());
@@ -57,7 +61,7 @@ class QuizDaoImplTest {
     private Question createQuestion(int expectedIndex, boolean[] answerFlags) {
         List<Answer> answers = new ArrayList<>();
         for (int i = 0; i < answerFlags.length; i++) {
-            answers.add(new Answer("Answer " + expectedIndex + "-" + (i + 1), answerFlags[i]));
+            answers.add(new Answer(i, "Answer " + expectedIndex + "-" + (i + 1), answerFlags[i]));
         }
         return new Question("Question " + expectedIndex, answers);
     }

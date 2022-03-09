@@ -1,10 +1,10 @@
-package ru.otus.spring.homework01.domain;
+package ru.otus.spring.homework02.domain;
 
 import java.util.List;
+import java.util.Optional;
 
 public class Question {
     private final String text;
-
     private final List<Answer> answers;
 
     public Question(String text, List<Answer> answers) {
@@ -20,10 +20,15 @@ public class Question {
         return answers;
     }
 
+    public boolean isCorrectAnswer(int userChoice) {
+        Optional<Answer> answer = answers.stream().filter(a -> a.getId() == userChoice).findAny();
+        return answer.map(Answer::isCorrect).orElse(false);
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder(text);
         answers.forEach(answer -> sb.append("\n\t").append(answer));
-        return sb.toString();
+        return sb.append("\n").toString();
     }
 }

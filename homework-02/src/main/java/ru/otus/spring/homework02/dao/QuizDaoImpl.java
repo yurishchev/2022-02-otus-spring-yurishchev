@@ -1,11 +1,11 @@
-package ru.otus.spring.homework01.dao;
+package ru.otus.spring.homework02.dao;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-import ru.otus.spring.homework01.domain.Answer;
-import ru.otus.spring.homework01.domain.Question;
-import ru.otus.spring.homework01.domain.Quiz;
+import ru.otus.spring.homework02.config.QuizConfig;
+import ru.otus.spring.homework02.domain.Answer;
+import ru.otus.spring.homework02.domain.Question;
+import ru.otus.spring.homework02.domain.Quiz;
 
 import java.util.*;
 
@@ -17,8 +17,8 @@ public class QuizDaoImpl implements QuizDao {
     private final String resourceName;
 
 
-    public QuizDaoImpl(@Value("${'app.quiz.filename'}") String resourceName) {
-        this.resourceName = resourceName;
+    public QuizDaoImpl(QuizConfig quizConfig) {
+        this.resourceName = quizConfig.getQuizFileName();
     }
 
     @Override
@@ -51,7 +51,7 @@ public class QuizDaoImpl implements QuizDao {
                 if (index == 0) {
                     questionText = data;
                 } else {
-                    answer = getAnswerFromString(data);
+                    answer = getAnswerFromString(index, data);
                 }
 
                 if (!StringUtils.hasLength(questionText)) {
@@ -75,12 +75,12 @@ public class QuizDaoImpl implements QuizDao {
         return StringUtils.hasLength(text) && answers.size() > 0;
     }
 
-    private Answer getAnswerFromString(String source) {
+    private Answer getAnswerFromString(int index, String source) {
         String answerText = source.replaceAll(ANSWER_CORRECT_STATUS_PLACEHOLDER, "");
         boolean answerIsCorrect = source.length() > answerText.length();
 
-        if (StringUtils.hasLength(answerText)) {
-            return new Answer(answerText, answerIsCorrect);
+        if (StringUtils.hasLength(answerText) || ANSWER_CORRECT_STATUS_PLACEHOLDER.equals(source)) {
+            return new Answer(index, answerText, answerIsCorrect);
         }
         return null;
     }

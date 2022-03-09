@@ -1,4 +1,4 @@
-package ru.otus.spring.homework01.domain;
+package ru.otus.spring.homework02.domain;
 
 import java.util.Set;
 
@@ -19,5 +19,4 @@ public class Quiz {
         questions.forEach(question -> sb.append("\n").append(question));
         return sb.toString();
     }
-
 }

@@ -1,4 +1,4 @@
-package ru.otus.spring.homework01;
+package ru.otus.spring.homework02;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
