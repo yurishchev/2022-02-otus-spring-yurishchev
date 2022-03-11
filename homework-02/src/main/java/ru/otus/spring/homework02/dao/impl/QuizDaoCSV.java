@@ -1,24 +1,22 @@
-package ru.otus.spring.homework02.dao;
+package ru.otus.spring.homework02.dao.impl;
 
-import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-import ru.otus.spring.homework02.config.QuizConfig;
+import ru.otus.spring.homework02.dao.QuizDao;
 import ru.otus.spring.homework02.domain.Answer;
 import ru.otus.spring.homework02.domain.Question;
 import ru.otus.spring.homework02.domain.Quiz;
 
 import java.util.*;
 
-@Service
-public class QuizDaoImpl implements QuizDao {
+public class QuizDaoCSV implements QuizDao {
     private static final String CSV_COLUMNS_DELIMITER = "\\|";
     private static final String ANSWER_CORRECT_STATUS_PLACEHOLDER = "\\{\\{X}}";
 
     private final String resourceName;
 
 
-    public QuizDaoImpl(QuizConfig quizConfig) {
-        this.resourceName = quizConfig.getQuizFileName();
+    public QuizDaoCSV(String resourceName) {
+        this.resourceName = resourceName;
     }
 
     @Override

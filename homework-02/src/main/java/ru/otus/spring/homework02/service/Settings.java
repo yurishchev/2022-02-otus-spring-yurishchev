@@ -1,12 +1,10 @@
-package ru.otus.spring.homework02.config;
+package ru.otus.spring.homework02.service;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
+import org.springframework.stereotype.Component;
 
-@PropertySource("classpath:application.properties")
-@Configuration
-public class QuizConfig {
+@Component
+public class Settings {
     private String quizFileName;
     private int numberOfQuestions;
     private int passScore;
