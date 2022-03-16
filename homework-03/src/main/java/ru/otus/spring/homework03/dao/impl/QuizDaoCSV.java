@@ -6,6 +6,7 @@ import ru.otus.spring.homework03.domain.Answer;
 import ru.otus.spring.homework03.domain.Question;
 import ru.otus.spring.homework03.domain.Quiz;
 
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 public class QuizDaoCSV implements QuizDao {
@@ -23,7 +24,7 @@ public class QuizDaoCSV implements QuizDao {
     public Quiz findQuiz() {
         Set<Question> questions = new LinkedHashSet<>();
         try (Scanner scanner =
-                     new Scanner(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream(resourceName)))) {
+                     new Scanner(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream(resourceName)), StandardCharsets.UTF_8)) {
             while (scanner.hasNextLine()) {
                 Question question = getQuestionDataFromString(scanner.nextLine());
                 if (question != null) {

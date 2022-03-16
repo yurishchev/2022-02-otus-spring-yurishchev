@@ -23,4 +23,4 @@
  > mvn clean install
 
 ### Execution
- > java -jar target/homework-03-1.0.0-jar-with-dependencies.jar
+ > java -jar target/homework-03-0.0.1-SNAPSHOT.jar
