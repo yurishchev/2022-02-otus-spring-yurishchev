@@ -3,10 +3,10 @@ package ru.otus.spring.homework03.service.impl;
 import org.springframework.stereotype.Service;
 import ru.otus.spring.homework03.domain.Answer;
 import ru.otus.spring.homework03.domain.Question;
-import ru.otus.spring.homework03.service.StringConverter;
+import ru.otus.spring.homework03.service.QuizConverter;
 
 @Service
-public class StringConverterImpl implements StringConverter {
+public class QuizToStringConverter implements QuizConverter {
 
     @Override
     public String toString(Question question) {

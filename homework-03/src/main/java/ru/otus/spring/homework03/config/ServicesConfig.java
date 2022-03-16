@@ -24,6 +24,8 @@ public class ServicesConfig {
     @Bean
     public QuizDao daoService() {
         Settings settings = settings();
+
+        // TODO it also makes sense to pass locale to QuizDao method to make it more explicit
         return new QuizDaoCSV(settings.getFileName() + "_" + settings.getLocaleTag());
     }
 }

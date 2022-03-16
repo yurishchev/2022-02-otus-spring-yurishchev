@@ -15,13 +15,13 @@ public class QuizRunner {
     private final QuizService quizService;
     private final IOService ioService;
     private final Settings settings;
-    private final StringConverter converter;
+    private final QuizConverter converter;
     private final MessageSource messageSource;
 
     public QuizRunner(QuizService quizService,
                       IOService ioService,
                       Settings settings,
-                      StringConverter converter,
+                      QuizConverter converter,
                       MessageSource messageSource) {
         this.quizService = quizService;
         this.ioService = ioService;
