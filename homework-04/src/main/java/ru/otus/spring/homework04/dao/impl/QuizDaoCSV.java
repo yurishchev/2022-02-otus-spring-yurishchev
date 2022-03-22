@@ -1,5 +1,6 @@
 package ru.otus.spring.homework04.dao.impl;
 
+import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import ru.otus.spring.homework04.dao.QuizDao;
 import ru.otus.spring.homework04.domain.Answer;
@@ -10,19 +11,13 @@ import ru.otus.spring.homework04.exception.AppException;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
+@Service
 public class QuizDaoCSV implements QuizDao {
     private static final String CSV_COLUMNS_DELIMITER = "\\|";
     private static final String ANSWER_CORRECT_STATUS_PLACEHOLDER = "\\{\\{X}}";
 
-    private final String resourceName;
-
-
-    public QuizDaoCSV(String resourceName) {
-        this.resourceName = resourceName;
-    }
-
     @Override
-    public Quiz findQuiz() {
+    public Quiz findQuiz(String resourceName) {
         Set<Question> questions = new LinkedHashSet<>();
         try (Scanner scanner =
                      new Scanner(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream(resourceName)),

@@ -8,4 +8,6 @@ quiz:
   file-name: questionnaire.csv
   questions-number: 5
   pass-score: 4
-  localeTag: ru-RU
+  locales:
+    - en-US
+    - ru-RU

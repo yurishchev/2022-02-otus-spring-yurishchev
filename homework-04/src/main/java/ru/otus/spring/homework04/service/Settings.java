@@ -4,22 +4,28 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
+import java.util.List;
+
 @ConfigurationProperties(prefix = "quiz")
 @Component
 public class Settings {
-    private static final String DEFAULT_LOCALE_TAG = "";
+    private static final String DEFAULT_LOCALE_TAG = "en-EN";
     private static final int DEFAULT_QUESTIONS_NUMBER = 5;
     private static final int DEFAULT_PASS_SCORE = 4;
     private static final String CSV_EXTENSION = ".csv";
 
-    private String localeTag;
     private String fileName;
     private int questionsNumber;
     private int passScore;
+    private List<String> locales;
+    private String selectedLocaleTag;
 
     public String getFileName() {
-        return StringUtils.hasLength(fileName) ? fileName.substring(0, fileName.indexOf(CSV_EXTENSION)) +
-                (StringUtils.hasLength(getLocaleTag()) ? "_" + getLocaleTag() : "") + CSV_EXTENSION : "";
+        String selectedLocale = getSelectedLocaleTag().replaceAll(DEFAULT_LOCALE_TAG, "");
+        String localeSuffix = StringUtils.hasLength(selectedLocale) ? "_" + selectedLocale : "";
+        return StringUtils.hasLength(fileName) ?
+                fileName.substring(0, fileName.indexOf(CSV_EXTENSION)) + localeSuffix + CSV_EXTENSION
+                : "";
     }
 
     public void setFileName(String fileName) {
@@ -42,11 +48,19 @@ public class Settings {
         this.passScore = passScore;
     }
 
-    public String getLocaleTag() {
-        return StringUtils.hasLength(localeTag) ? localeTag : DEFAULT_LOCALE_TAG;
+    public String getSelectedLocaleTag() {
+        return StringUtils.hasLength(selectedLocaleTag) ? selectedLocaleTag : DEFAULT_LOCALE_TAG;
     }
 
-    public void setLocaleTag(String localeTag) {
-        this.localeTag = localeTag;
+    public void setSelectedLocaleTag(String localeTag) {
+        this.selectedLocaleTag = localeTag;
+    }
+
+    public List<String> getLocales() {
+        return locales;
+    }
+
+    public void setLocales(List<String> locales) {
+        this.locales = locales;
     }
 }

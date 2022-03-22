@@ -14,7 +14,7 @@ public class QuizServiceImpl implements QuizService {
     }
 
     @Override
-    public Quiz loadQuiz() {
-        return dao.findQuiz();
+    public Quiz loadQuiz(String resourceName) {
+        return dao.findQuiz(resourceName);
     }
 }

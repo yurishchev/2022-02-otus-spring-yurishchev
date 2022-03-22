@@ -32,8 +32,8 @@ class QuizDaoCSVTest {
     void testIncorrectQuiz() {
         when(settings.getFileName()).thenReturn(TEST_INCORRECT_RESOURCE_NAME);
 
-        quizDao = new QuizDaoCSV(settings.getFileName());
-        Quiz quiz = quizDao.findQuiz();
+        quizDao = new QuizDaoCSV();
+        Quiz quiz = quizDao.findQuiz(settings.getFileName());
 
         assertThat(quiz.getQuestions().size()).isEqualTo(0);
     }
@@ -47,8 +47,8 @@ class QuizDaoCSVTest {
         Question expectedQuestion4 = createQuestion(4, new boolean[]{false});
         Question expectedQuestion5 = createQuestion(5, new boolean[]{true, false, false, false});
 
-        quizDao = new QuizDaoCSV(settings.getFileName());
-        Quiz quiz = quizDao.findQuiz();
+        quizDao = new QuizDaoCSV();
+        Quiz quiz = quizDao.findQuiz(settings.getFileName());
         Iterator<Question> questionsIterator = quiz.getQuestions().iterator();
 
         assertThat(quiz.getQuestions().size()).isEqualTo(5);

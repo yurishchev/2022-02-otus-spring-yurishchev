@@ -28,13 +28,12 @@ public class QuizRunner {
         this.localizer = localizer;
     }
 
-    public void run() {
-        Quiz quiz = quizService.loadQuiz();
+    public String run() {
+        Quiz quiz = quizService.loadQuiz(settings.getFileName());
 
-        ioService.println(localizer.getMessage("app.locale.text", settings.getLocaleTag()));
         String name = ioService.readInputWithLabel(localizer.getMessage("app.enter.name"));
 
-        printResults(name, calculateQuizScore(quiz));
+        return getResults(name, calculateQuizScore(quiz));
     }
 
     private int calculateQuizScore(Quiz quiz) {
@@ -65,14 +64,12 @@ public class QuizRunner {
         }
     }
 
-    private void printResults(String name, int score) {
+    private String getResults(String name, int score) {
         String testResults = (score >= settings.getPassScore()) ?
                 localizer.getMessage("app.result.status.success") :
                 localizer.getMessage("app.result.status.failure");
         String quizSummaryText =
                 localizer.getMessage("app.result.text", name, score, settings.getQuestionsNumber());
-
-        ioService.println(quizSummaryText);
-        ioService.println(testResults);
+        return quizSummaryText + "\n" + testResults;
     }
 }
