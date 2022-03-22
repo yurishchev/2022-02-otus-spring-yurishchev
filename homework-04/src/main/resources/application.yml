@@ -1,0 +1,11 @@
+spring:
+  messages:
+    basename: i18n/messages
+  main:
+    allow-circular-references: true
+
+quiz:
+  file-name: questionnaire.csv
+  questions-number: 5
+  pass-score: 4
+  localeTag: ru-RU
