@@ -1,6 +1,7 @@
 package ru.otus.spring.homework04;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import ru.otus.spring.homework04.dao.impl.QuizDaoCSV;
 import ru.otus.spring.homework04.domain.Answer;
@@ -16,7 +17,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-class QuizDaoCSVTest {
+
+@DisplayName("Homework 04 - Quiz DAO Unit Tests")
+public class QuizDaoCSVTest {
     public static final String TEST_RESOURCE_NAME = "test-questionnaire.csv";
     public static final String TEST_INCORRECT_RESOURCE_NAME = "test-incorrect-questionnaire.csv";
 
@@ -43,9 +46,9 @@ class QuizDaoCSVTest {
         when(settings.getFileName()).thenReturn(TEST_RESOURCE_NAME);
         Question expectedQuestion1 = createQuestion(1, new boolean[]{true, false, true, false, false});
         Question expectedQuestion2 = createQuestion(2, new boolean[]{true, false});
-        Question expectedQuestion3 = createQuestion(3, new boolean[]{false, false, false});
-        Question expectedQuestion4 = createQuestion(4, new boolean[]{false});
-        Question expectedQuestion5 = createQuestion(5, new boolean[]{true, false, false, false});
+        Question expectedQuestion3 = createQuestion(3, new boolean[]{false, false, true});
+        Question expectedQuestion4 = createQuestion(4, new boolean[]{true});
+        Question expectedQuestion5 = createQuestion(5, new boolean[]{false, true, false, false});
 
         quizDao = new QuizDaoCSV();
         Quiz quiz = quizDao.findQuiz(settings.getFileName());

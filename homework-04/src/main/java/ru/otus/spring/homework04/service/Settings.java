@@ -9,7 +9,8 @@ import java.util.List;
 @ConfigurationProperties(prefix = "quiz")
 @Component
 public class Settings {
-    private static final String DEFAULT_LOCALE_TAG = "en-EN";
+    public static final String DEFAULT_LOCALE_TAG = "en-US";
+
     private static final int DEFAULT_QUESTIONS_NUMBER = 5;
     private static final int DEFAULT_PASS_SCORE = 4;
     private static final String CSV_EXTENSION = ".csv";

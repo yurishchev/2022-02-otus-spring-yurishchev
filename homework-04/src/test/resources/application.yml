@@ -3,13 +3,14 @@ logging:
     root: INFO
 
 spring:
-  messages:
-    basename: i18n/messages
+  shell:
+    interactive:
+      enabled: false
   main:
     allow-circular-references: true
 
 quiz:
-  file-name: questionnaire.csv
+  file-name: test-questionnaire.csv
   questions-number: 5
   pass-score: 4
   locales:

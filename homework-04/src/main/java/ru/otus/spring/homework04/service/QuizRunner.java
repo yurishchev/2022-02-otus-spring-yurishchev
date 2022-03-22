@@ -5,6 +5,7 @@ import ru.otus.spring.homework04.domain.Question;
 import ru.otus.spring.homework04.domain.Quiz;
 import ru.otus.spring.homework04.exception.AppException;
 
+import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -38,7 +39,8 @@ public class QuizRunner {
 
     private int calculateQuizScore(Quiz quiz) {
         int score = 0;
-        Set<Question> questions = quiz.getQuestions().stream().limit(settings.getQuestionsNumber()).collect(Collectors.toSet());
+        Set<Question> questions = quiz.getQuestions().stream().limit(
+                settings.getQuestionsNumber()).collect(Collectors.toCollection( LinkedHashSet::new ));
         for (Question question : questions) {
             score += isUserAnswerCorrectForQuestion(question) ? 1 : 0;
         }
