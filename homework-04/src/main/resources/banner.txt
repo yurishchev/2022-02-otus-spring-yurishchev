@@ -1,0 +1,15 @@
+${AnsiBackground.BRIGHT_YELLOW}
+${AnsiBackground.DEFAULT}
+${AnsiColor.RED}   ____        _     ${AnsiColor.BLUE}
+${AnsiColor.RED}  / __ \      (_)    ${AnsiColor.BLUE}     /\
+${AnsiColor.RED} | |  | |_   _ _ ____${AnsiColor.BLUE}    /  \   _ __  _ __
+${AnsiColor.RED} | |  | | | | | |_  /${AnsiColor.BLUE}   / /\ \ | '_ \| '_ \
+${AnsiColor.RED} | |__| | |_| | |/ / ${AnsiColor.BLUE}  / ____ \| |_) | |_) |
+${AnsiColor.RED}  \___\_\\__,_|_/___|${AnsiColor.BLUE} /_/    \_\ .__/| .__/
+${AnsiColor.RED}                     ${AnsiColor.BLUE}          | |   | |
+${AnsiColor.RED}                     ${AnsiColor.BLUE}          |_|   |_|
+${AnsiColor.DEFAULT}
+${application.title}
+${application.version}
+${AnsiBackground.BRIGHT_YELLOW}
+${AnsiBackground.DEFAULT}

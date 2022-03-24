@@ -1,0 +1,18 @@
+logging:
+  level:
+    root: INFO
+
+spring:
+  shell:
+    interactive:
+      enabled: false
+  main:
+    allow-circular-references: true
+
+quiz:
+  file-name: test-questionnaire.csv
+  questions-number: 5
+  pass-score: 4
+  locales:
+    - en-US
+    - ru-RU
