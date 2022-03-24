@@ -7,7 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.annotation.DirtiesContext;
 import ru.otus.spring.homework04.service.IOService;
-import ru.otus.spring.homework04.service.ShellCommands;
+import ru.otus.spring.homework04.shell.ShellCommands;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;

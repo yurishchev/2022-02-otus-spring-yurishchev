@@ -1,9 +1,12 @@
-package ru.otus.spring.homework04.service;
+package ru.otus.spring.homework04.shell;
 
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
 import org.springframework.util.StringUtils;
+import ru.otus.spring.homework04.service.Localizer;
+import ru.otus.spring.homework04.service.QuizRunner;
+import ru.otus.spring.homework04.service.Settings;
 
 import static ru.otus.spring.homework04.service.Settings.DEFAULT_LOCALE_TAG;
 
@@ -19,7 +22,7 @@ public class ShellCommands {
         this.localizer = localizer;
     }
 
-    @ShellMethod("Run Quiz")
+    @ShellMethod(key="run", value = "Run Quiz")
     public String run() {
         return runner.run();
     }
