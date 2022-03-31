@@ -1,15 +1,15 @@
 package ru.otus.spring.homework05.domain;
 
 public class Genre {
-    private final int id;
+    private final Long id;
     private final String name;
 
-    public Genre(int id, String name) {
+    public Genre(Long id, String name) {
         this.id = id;
         this.name = name;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
