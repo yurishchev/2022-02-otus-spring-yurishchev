@@ -1,5 +1,6 @@
 package ru.otus.spring.homework05.service.impl;
 
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import ru.otus.spring.homework05.dao.LibraryDao;
 import ru.otus.spring.homework05.domain.Author;
@@ -25,7 +26,11 @@ public class LibraryServiceImpl implements LibraryService {
 
     @Override
     public Book getBookById(Long id) {
-        return dao.getBookById(id);
+        try {
+            return dao.getBookById(id);
+        } catch (EmptyResultDataAccessException ere) {
+            throw new AppException("Couldn't find book with id=" + id);
+        }
     }
 
     @Override

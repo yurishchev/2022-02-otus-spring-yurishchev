@@ -15,6 +15,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 @Repository
 public class LibraryDaoJdbc implements LibraryDao {
@@ -26,8 +27,11 @@ public class LibraryDaoJdbc implements LibraryDao {
 
     @Override
     public Book getBookById(Long id) {
-        String sql = "SELECT ID, TITLE, AUTHOR_ID, GENRE_ID FROM BOOKS WHERE ID=:id";
-        return jdbc.queryForObject(sql, Collections.singletonMap("id", id), new BookMapper());
+        String sql = "SELECT b.ID, b.TITLE, b.AUTHOR_ID, b.GENRE_ID, " +
+                "a.FIRSTNAME as AUTHOR_FIRSTNAME, a.LASTNAME as AUTHOR_LASTNAME, g.NAME as GENRE_NAME " +
+                "FROM BOOKS b, AUTHORS a, GENRES g " +
+                "WHERE b.AUTHOR_ID = a.ID AND b.GENRE_ID = g.ID AND b.ID=:id";
+        return jdbc.queryForObject(sql, Collections.singletonMap("id", id), new BookFullInfoMapper());
     }
 
     @Override
@@ -46,7 +50,7 @@ public class LibraryDaoJdbc implements LibraryDao {
         String sql = "INSERT INTO BOOKS (TITLE, AUTHOR_ID, GENRE_ID) VALUES (:title, :authorId, :genreId)";
         jdbc.update(sql, params, kh);
 
-        return kh.getKey().longValue();
+        return Objects.requireNonNull(kh.getKey()).longValue();
     }
 
     @Override
@@ -57,7 +61,7 @@ public class LibraryDaoJdbc implements LibraryDao {
         params.addValue("authorId", book.getAuthorId());
         params.addValue("genreId", book.getGenreId());
 
-        String sql = "UPDATE BOOK SET TITLE=:title, AUTHOR_ID=:authorId, GENRE_ID=:genreId WHERE ID=:id";
+        String sql = "UPDATE BOOKS SET TITLE=:title, AUTHOR_ID=:authorId, GENRE_ID=:genreId WHERE ID=:id";
         return jdbc.update(sql, params) > 0;
     }
 
@@ -98,6 +102,21 @@ public class LibraryDaoJdbc implements LibraryDao {
             long authorId = resultSet.getLong("AUTHOR_ID");
             long genreId = resultSet.getLong("GENRE_ID");
             return new Book(id, title, authorId, genreId);
+        }
+    }
+
+    private static class BookFullInfoMapper implements RowMapper<Book> {
+
+        @Override
+        public Book mapRow(ResultSet resultSet, int i) throws SQLException {
+            long id = resultSet.getLong("ID");
+            String title = resultSet.getString("TITLE");
+            long authorId = resultSet.getLong("AUTHOR_ID");
+            long genreId = resultSet.getLong("GENRE_ID");
+            String authorFirstName = resultSet.getString("AUTHOR_FIRSTNAME");
+            String authorLastName = resultSet.getString("AUTHOR_LASTNAME");
+            String genreName = resultSet.getString("GENRE_NAME");
+            return new Book(id, title, new Author(authorId, authorFirstName, authorLastName), new Genre(genreId, genreName));
         }
     }
 
