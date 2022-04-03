@@ -3,25 +3,22 @@ package ru.otus.spring.homework05.dao;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
+import org.springframework.context.annotation.Import;
+import org.springframework.dao.EmptyResultDataAccessException;
+import ru.otus.spring.homework05.dao.impl.BookDaoJdbc;
 import ru.otus.spring.homework05.domain.Author;
 import ru.otus.spring.homework05.domain.Book;
 import ru.otus.spring.homework05.domain.Genre;
-import ru.otus.spring.homework05.exception.AppException;
-import ru.otus.spring.homework05.service.LibraryService;
+
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
 
-
-@DisplayName("Library Service Integration Tests")
-@SpringBootTest
-@Transactional(propagation = Propagation.NOT_SUPPORTED)
-public class LibraryServiceTest {
-    private static final long EXPECTED_AUTHORS_COUNT = 6;
-    private static final long EXPECTED_GENRES_COUNT = 3;
-    private static final long EXPECTED_BOOKS_COUNT = 6;
+@DisplayName("Book Dao Test Suite")
+@JdbcTest
+@Import(BookDaoJdbc.class)
+class BookDaoJdbcTest {
 
     private static final long EXISTING_BOOK_ID = 1;
     private static final String EXISTING_BOOK_TITLE = "War and Peace";
@@ -40,16 +37,20 @@ public class LibraryServiceTest {
     private static final long ANOTHER_EXISTING_GENRE_ID = 2;
     private static final String ANOTHER_EXISTING_GENRE_NAME = "Fantasy";
 
+
     @Autowired
-    private LibraryService service;
+    private BookDaoJdbc bookDao;
 
 
-    @DisplayName("Check available authors and genres")
+    @DisplayName("Create book")
     @Test
-    void shouldContainAuthorsAndGenres() {
-        assertThat(service.getAllGenres().size()).isEqualTo(EXPECTED_GENRES_COUNT);
+    void createBookTest() {
+        Author expectedAuthor = new Author(EXISTING_AUTHOR_ID, EXISTING_AUTHOR_FIRSTNAME, EXISTING_AUTHOR_LASTNAME);
+        Genre expectedGenre = new Genre(EXISTING_GENRE_ID, EXISTING_GENRE_NAME);
+        Book expectedBook = new Book(null, "Voskresenie", expectedAuthor, expectedGenre);
+        long actualBookId = bookDao.createBook(expectedBook);
 
-        assertThat(service.getAllAuthors().size()).isEqualTo(EXPECTED_AUTHORS_COUNT);
+        assertThat(actualBookId).isEqualTo(NEW_BOOK_ID);
     }
 
     @DisplayName("Get book by id")
@@ -58,36 +59,43 @@ public class LibraryServiceTest {
         Author expectedAuthor = new Author(EXISTING_AUTHOR_ID, EXISTING_AUTHOR_FIRSTNAME, EXISTING_AUTHOR_LASTNAME);
         Genre expectedGenre = new Genre(EXISTING_GENRE_ID, EXISTING_GENRE_NAME);
         Book expectedBook = new Book(EXISTING_BOOK_ID, EXISTING_BOOK_TITLE, expectedAuthor, expectedGenre);
-        Book actualBook = service.getBookById(expectedBook.getId());
+        Book actualBook = bookDao.getBookById(expectedBook.getId());
         assertThat(actualBook).usingRecursiveComparison().isEqualTo(expectedBook);
     }
 
-    @DisplayName("Create and Delete book")
-    @Test
-    void createAndDeleteBookTest() {
-        Book actualBook = service.createBook("Voskresenie", EXISTING_AUTHOR_ID, EXISTING_GENRE_ID);
-        assertThat(actualBook.getId()).isEqualTo(NEW_BOOK_ID);
-        assertThat(service.getAllBooks().size()).isEqualTo(EXPECTED_BOOKS_COUNT + 1);
-
-        assertThatCode(() -> service.getBookById(NEW_BOOK_ID)).doesNotThrowAnyException();
-        assertThatCode(() -> service.deleteBook(NEW_BOOK_ID)).doesNotThrowAnyException();
-        assertThatThrownBy(() -> service.getBookById(NEW_BOOK_ID)).isInstanceOf(AppException.class);
-
-        assertThat(service.getAllBooks().size()).isEqualTo(EXPECTED_BOOKS_COUNT);
-    }
-
-    @DisplayName("Update book")
+    @DisplayName("Update book by id")
     @Test
     void updateBookByIdTest() {
         Author expectedAuthor = new Author(ANOTHER_EXISTING_AUTHOR_ID, ANOTHER_EXISTING_AUTHOR_FIRSTNAME, ANOTHER_EXISTING_AUTHOR_LASTNAME);
         Genre expectedGenre = new Genre(ANOTHER_EXISTING_GENRE_ID, ANOTHER_EXISTING_GENRE_NAME);
         Book expectedBook = new Book(EXISTING_BOOK_ID, UPDATED_BOOK_TITLE, expectedAuthor, expectedGenre);
+        boolean result = bookDao.updateBook(expectedBook);
+        Book actualBook = bookDao.getBookById(expectedBook.getId());
 
-        assertThatCode(() -> service.updateBook(EXISTING_BOOK_ID, UPDATED_BOOK_TITLE, ANOTHER_EXISTING_AUTHOR_ID, ANOTHER_EXISTING_GENRE_ID)).doesNotThrowAnyException();
-
-        Book actualBook = service.getBookById(expectedBook.getId());
+        assertThat(result).isTrue();
         assertThat(actualBook).usingRecursiveComparison().isEqualTo(expectedBook);
+    }
 
-        assertThat(service.getAllBooks().size()).isEqualTo(EXPECTED_BOOKS_COUNT);
+    @DisplayName("Delete book by id")
+    @Test
+    void deleteBookTest() {
+        assertThatCode(() -> bookDao.getBookById(EXISTING_BOOK_ID)).doesNotThrowAnyException();
+
+        boolean result = bookDao.deleteBook(EXISTING_BOOK_ID);
+
+        assertThat(result).isTrue();
+        assertThatThrownBy(() -> bookDao.getBookById(EXISTING_BOOK_ID)).isInstanceOf(EmptyResultDataAccessException.class);
+    }
+
+    @DisplayName("Get all books in library")
+    @Test
+    void getAllBooks() {
+        Author expectedAuthor = new Author(EXISTING_AUTHOR_ID, EXISTING_AUTHOR_FIRSTNAME, EXISTING_AUTHOR_LASTNAME);
+        Genre expectedGenre = new Genre(EXISTING_GENRE_ID, EXISTING_GENRE_NAME);
+        Book expectedBook = new Book(EXISTING_BOOK_ID, EXISTING_BOOK_TITLE, expectedAuthor, expectedGenre);
+        List<Book> actualPersonList = bookDao.getAllBooks();
+        assertThat(actualPersonList)
+                .usingRecursiveFieldByFieldElementComparator()
+                .containsAnyOf(expectedBook);
     }
 }

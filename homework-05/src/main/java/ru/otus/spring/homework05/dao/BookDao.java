@@ -1,12 +1,10 @@
 package ru.otus.spring.homework05.dao;
 
-import ru.otus.spring.homework05.domain.Author;
 import ru.otus.spring.homework05.domain.Book;
-import ru.otus.spring.homework05.domain.Genre;
 
 import java.util.List;
 
-public interface LibraryDao {
+public interface BookDao {
     Book getBookById(Long id);
 
     List<Book> getAllBooks();
@@ -16,12 +14,4 @@ public interface LibraryDao {
     boolean updateBook(Book book);
 
     boolean deleteBook(Long id);
-
-    Author getAuthorById(Long id);
-
-    List<Author> getAllAuthors();
-
-    Genre getGenreById(Long id);
-
-    List<Genre> getAllGenres();
 }

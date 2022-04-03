@@ -15,7 +15,7 @@ import javax.validation.constraints.NotBlank;
 
 @ShellComponent
 public class ShellCommands {
-    private static final String BOOK_TABLE_HEADER = String.join("\t", "ID", "AUTHOR_ID", "GENRE_ID", "TITLE");
+    private static final String BOOK_TABLE_HEADER = String.join("\t", "ID", "AUTHOR_INFO", "GENRE_INFO", "TITLE");
 
     private final LibraryService libraryService;
     private final LibraryConverter libraryConverter;
@@ -28,7 +28,6 @@ public class ShellCommands {
         this.localizer = localizer;
         this.settings = settings;
     }
-
 
     @ShellMethod(value = "List all books", key = {"lb"})
     public String getAllBooks() {

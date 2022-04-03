@@ -17,10 +17,8 @@ public class LibraryToStringConverter implements LibraryConverter {
 
     @Override
     public String toString(Book book) {
-        String authorInfo = book.getAuthor() != null ?
-                localizer.getMessage("app.book.author", toString(book.getAuthor())) : "" + book.getAuthorId();
-        String genreInfo = book.getGenre() != null ?
-                localizer.getMessage("app.book.genre", toString(book.getGenre())) : "" + book.getGenreId();
+        String authorInfo = localizer.getMessage("app.book.author", toString(book.getAuthor()));
+        String genreInfo = localizer.getMessage("app.book.genre", toString(book.getGenre()));
         return String.join("\t", "" + book.getId(), authorInfo, genreInfo, book.getTitle());
     }
 
