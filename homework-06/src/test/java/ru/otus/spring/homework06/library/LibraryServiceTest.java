@@ -60,7 +60,7 @@ public class LibraryServiceTest {
     @Autowired
     private LibraryService service;
 
-
+/*
     @DisplayName("Check available books")
     @Test
     void shouldContainProperSizeOfBooks() {
@@ -157,4 +157,6 @@ public class LibraryServiceTest {
 
         assertThat(service.getAllGenres().size()).isEqualTo(EXPECTED_GENRES_COUNT);
     }
+
+ */
 }

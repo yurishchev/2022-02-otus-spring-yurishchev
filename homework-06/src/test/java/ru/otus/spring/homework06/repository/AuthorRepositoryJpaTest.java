@@ -40,7 +40,7 @@ class AuthorRepositoryJpaTest {
     @DisplayName("Get author by id")
     @Test
     void getAuthorByIdTest() {
-        Optional<Author> actualAuthor = authorRepository.findAuthorById(EXISTING_AUTHOR_ID);
+        Optional<Author> actualAuthor = authorRepository.findById(EXISTING_AUTHOR_ID);
         assertThat(actualAuthor).isNotEmpty().get()
                 .hasFieldOrPropertyWithValue("firstName", EXISTING_AUTHOR_FIRSTNAME)
                 .hasFieldOrPropertyWithValue("lastName", EXISTING_AUTHOR_LASTNAME);

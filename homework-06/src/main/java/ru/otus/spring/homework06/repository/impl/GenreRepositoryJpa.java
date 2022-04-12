@@ -1,8 +1,8 @@
 package ru.otus.spring.homework06.repository.impl;
 
 import org.springframework.stereotype.Repository;
-import ru.otus.spring.homework06.repository.GenreRepository;
 import ru.otus.spring.homework06.domain.Genre;
+import ru.otus.spring.homework06.repository.GenreRepository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -26,7 +26,7 @@ public class GenreRepositoryJpa implements GenreRepository {
     }
 
     @Override
-    public Optional<Genre> findGenreById(Long id) {
+    public Optional<Genre> findById(Long id) {
         TypedQuery<Genre> query = em.createQuery("select g from Genre g where g.id = :id", Genre.class);
         query.setParameter("id", id);
         try {

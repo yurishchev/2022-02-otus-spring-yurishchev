@@ -2,22 +2,33 @@ package ru.otus.spring.homework06.service;
 
 import ru.otus.spring.homework06.domain.Author;
 import ru.otus.spring.homework06.domain.Book;
+import ru.otus.spring.homework06.domain.Comment;
 import ru.otus.spring.homework06.domain.Genre;
 
 import java.util.List;
 
 public interface LibraryService {
+    List<Author> getAllAuthors();
+
+    List<Genre> getAllGenres();
+
     List<Book> getAllBooks();
 
     Book getBookById(Long id);
 
-    Book createBook(String title, Long authorId, Long genreId);
+    Book createBook(String title, Long authorId, List<Long> genreIds);
 
-    void updateBook(Long id, String title, Long authorId, Long genreId);
+    void updateBook(Long id, String title, Long authorId, List<Long> genreIds);
 
     void deleteBook(Long id);
 
-    List<Author> getAllAuthors();
+    Comment getCommentById(Long id);
 
-    List<Genre> getAllGenres();
+    List<Comment> getAllCommentsByBookId(Long bookId);
+
+    Comment createComment(Long bookId, String text, String from);
+
+    void updateComment(Long id, String text, String from);
+
+    void deleteComment(Long id);
 }

@@ -1,8 +1,8 @@
 package ru.otus.spring.homework06.repository.impl;
 
 import org.springframework.stereotype.Repository;
-import ru.otus.spring.homework06.repository.AuthorRepository;
 import ru.otus.spring.homework06.domain.Author;
+import ru.otus.spring.homework06.repository.AuthorRepository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -26,7 +26,7 @@ public class AuthorRepositoryJpa implements AuthorRepository {
     }
 
     @Override
-    public Optional<Author> findAuthorById(Long id) {
+    public Optional<Author> findById(Long id) {
         TypedQuery<Author> query = em.createQuery("select a from Author a where a.id = :id", Author.class);
         query.setParameter("id", id);
         try {

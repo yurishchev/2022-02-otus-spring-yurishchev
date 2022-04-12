@@ -39,7 +39,7 @@ class GenreRepositoryJdbcTest {
     @DisplayName("Get genre by id")
     @Test
     void getGenreByIdTest() {
-        Optional<Genre> actualGenre = genreRepository.findGenreById(EXISTING_GENRE_ID);
+        Optional<Genre> actualGenre = genreRepository.findById(EXISTING_GENRE_ID);
         assertThat(actualGenre).isNotEmpty().get()
                 .hasFieldOrPropertyWithValue("name", EXISTING_GENRE_NAME);
     }

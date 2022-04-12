@@ -1,15 +1,14 @@
 package ru.otus.spring.homework06.repository.impl;
 
+import org.hibernate.jpa.QueryHints;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import ru.otus.spring.homework06.domain.Book;
 import ru.otus.spring.homework06.repository.BookRepository;
 
-import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
+import javax.persistence.*;
+import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 @Repository
@@ -23,24 +22,33 @@ public class BookRepositoryJpa implements BookRepository {
 
     @Override
     public List<Book> findAll() {
-        // TODO fetch necessary associated data
-        return em.createQuery("select b from Book b", Book.class).getResultList();
+        EntityGraph<?> entityGraph = em.getEntityGraph("book-with-author-and-genres");
+        TypedQuery<Book> query = em.createQuery("SELECT DISTINCT b FROM Book b", Book.class);
+        query.setHint(QueryHints.HINT_FETCHGRAPH, entityGraph);
+        List<Book> books = query.getResultList();
+
+/*
+        String jpql = "SELECT DISTINCT b FROM Book b LEFT JOIN FETCH b.comments LEFT JOIN b.author WHERE b IN :books";
+        books = em.createQuery(jpql, Book.class)
+                .setParameter("books", books)
+                //.setHint(QueryHints.HINT_FETCHGRAPH, entityGraph)
+                .setHint(QueryHints.HINT_PASS_DISTINCT_THROUGH, false)
+                .getResultList();
+*/
+        return books;
     }
 
     @Override
-    public Optional<Book> findBookById(Long id) {
-        // TODO fetch necessary associated data
-        TypedQuery<Book> query = em.createQuery("select b from Book b where b.id = :id", Book.class);
-        query.setParameter("id", id);
-        try {
-            return Optional.of(query.getSingleResult());
-        } catch (NoResultException e) {
-            return Optional.empty();
-        }
+    public Optional<Book> findById(Long id) {
+        EntityGraph<?> entityGraph = em.getEntityGraph("book-with-author-and-genres");
+        return Optional.ofNullable(em.find(Book.class, id,
+                Collections.singletonMap("javax.persistence.fetchgraph", entityGraph)));
+        //return Optional.ofNullable(em.find(Book.class, id));
     }
 
     @Override
-    public Book saveBook(Book book) {
+    @Transactional
+    public Book save(Book book) {
         if (book.getId() == null) {
             em.persist(book);
         } else {
@@ -51,8 +59,9 @@ public class BookRepositoryJpa implements BookRepository {
     }
 
     @Override
-    public boolean deleteBook(Long id) {
-        TypedQuery<Book> query = em.createQuery("delete from Book b where b.id = :id", Book.class);
+    @Transactional
+    public boolean deleteById(Long id) {
+        Query query = em.createQuery("delete from Book b where b.id = :id");
         query.setParameter("id", id);
         return query.executeUpdate() == 1;
     }
