@@ -25,8 +25,8 @@ class CommentRepositoryJpaTest {
     private static final long EXISTING_BOOK_ID_WITHOUT_COMMENTS = 2;
 
     private static final long EXISTING_COMMENT_ID = 1;
-    private static final String EXISTING_COMMENT_TEXT = "Это потрясающее прозведение!";
-    private static final String EXISTING_COMMENT_FROM = "Василь Быков";
+    private static final String EXISTING_COMMENT_TEXT = "Outstanding masterpiece!";
+    private static final String EXISTING_COMMENT_FROM = "Vasil Bykov";
     private static final String NEW_COMMENT_TEXT = "New comment text.";
     private static final String NEW_COMMENT_FROM = "Sporadic visitor";
 

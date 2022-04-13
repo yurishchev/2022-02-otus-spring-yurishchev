@@ -25,6 +25,6 @@ INSERT INTO books_genres (book_id, genre_id) VALUES (5, 2);
 INSERT INTO books_genres (book_id, genre_id) VALUES (5, 3);
 INSERT INTO books_genres (book_id, genre_id) VALUES (6, 3);
 
-INSERT INTO comments (id, book_id, text, author) VALUES (1, 1, 'Это потрясающее прозведение!', 'Василь Быков');
+INSERT INTO comments (id, book_id, text, author) VALUES (1, 1, 'Outstanding masterpiece!', 'Vasil Bykov');
 INSERT INTO comments (id, book_id, text, author) VALUES (2, 1, 'Nice, but can be better', null);
 INSERT INTO comments (id, book_id, text, author) VALUES (3, 4, 'Читается на одном дыхании!', 'Владимир');
