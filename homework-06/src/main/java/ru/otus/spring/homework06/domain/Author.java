@@ -2,6 +2,7 @@ package ru.otus.spring.homework06.domain;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -26,6 +27,7 @@ public class Author {
     private String lastName;
 
     @OneToMany(mappedBy = "author", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ToString.Exclude
     private List<Book> books = new ArrayList<>();
 
 

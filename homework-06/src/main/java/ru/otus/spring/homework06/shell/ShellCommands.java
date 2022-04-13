@@ -115,7 +115,12 @@ public class ShellCommands {
     @ShellMethod(value = "List all comments in book. Format: 'lc <book-id>'", key = {"lc"})
     public String getAllCommentsInBook(@Min(1) Long id) {
         StringBuilder sb = new StringBuilder();
-        libraryService.getAllCommentsByBookId(id).forEach(comment -> sb.append(libraryConverter.toString(comment)).append("\n"));
+        List<Comment> comments = libraryService.getAllCommentsByBookId(id);
+        if (comments.isEmpty()) {
+            sb.append(localizer.getMessage("app.book.comment.none"));
+        } else {
+            comments.forEach(comment -> sb.append(libraryConverter.toString(comment)).append("\n"));
+        }
         return sb.toString();
     }
 
