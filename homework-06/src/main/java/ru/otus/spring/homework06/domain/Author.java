@@ -1,8 +1,7 @@
 package ru.otus.spring.homework06.domain;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
+import org.hibernate.Hibernate;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -10,7 +9,9 @@ import java.util.List;
 import java.util.Objects;
 
 
-@Data
+@Getter
+@Setter
+@ToString
 @NoArgsConstructor
 @Entity
 @Table(name = "authors")
@@ -40,13 +41,13 @@ public class Author {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
         Author author = (Author) o;
-        return id.equals(author.id);
+        return id != null && Objects.equals(id, author.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return getClass().hashCode();
     }
 }

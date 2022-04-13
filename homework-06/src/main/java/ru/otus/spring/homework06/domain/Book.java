@@ -1,7 +1,7 @@
 package ru.otus.spring.homework06.domain;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.Hibernate;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -9,7 +9,9 @@ import java.util.Objects;
 import java.util.Set;
 
 
-@Data
+@Getter
+@Setter
+@ToString
 @NoArgsConstructor
 @Entity
 @Table(name = "books")
@@ -30,15 +32,18 @@ public class Book {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "author_id", referencedColumnName = "id", nullable = false)
+    @ToString.Exclude
     private Author author;
 
     @ManyToMany(targetEntity = Genre.class, fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(name = "books_genres",
             joinColumns = @JoinColumn(name = "book_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "genre_id", referencedColumnName = "id"))
+    @ToString.Exclude
     private Set<Genre> genres = new HashSet<>();
 
     @OneToMany(mappedBy = "book", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @ToString.Exclude
     private Set<Comment> comments = new HashSet<>();
 
 
@@ -52,13 +57,13 @@ public class Book {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
         Book book = (Book) o;
-        return id.equals(book.id);
+        return id != null && Objects.equals(id, book.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return getClass().hashCode();
     }
 }
