@@ -2,11 +2,13 @@ package ru.otus.spring.homework06.repository.impl;
 
 import org.hibernate.jpa.QueryHints;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 import ru.otus.spring.homework06.domain.Book;
 import ru.otus.spring.homework06.repository.BookRepository;
 
-import javax.persistence.*;
+import javax.persistence.EntityGraph;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -22,32 +24,20 @@ public class BookRepositoryJpa implements BookRepository {
 
     @Override
     public List<Book> findAll() {
-        EntityGraph<?> entityGraph = em.getEntityGraph("book-with-author-and-genres");
+        EntityGraph<?> entityGraph = em.getEntityGraph("book-with-all-relations");
         TypedQuery<Book> query = em.createQuery("SELECT DISTINCT b FROM Book b", Book.class);
         query.setHint(QueryHints.HINT_FETCHGRAPH, entityGraph);
-        List<Book> books = query.getResultList();
-
-/*
-        String jpql = "SELECT DISTINCT b FROM Book b LEFT JOIN FETCH b.comments LEFT JOIN b.author WHERE b IN :books";
-        books = em.createQuery(jpql, Book.class)
-                .setParameter("books", books)
-                //.setHint(QueryHints.HINT_FETCHGRAPH, entityGraph)
-                .setHint(QueryHints.HINT_PASS_DISTINCT_THROUGH, false)
-                .getResultList();
-*/
-        return books;
+        return query.getResultList();
     }
 
     @Override
     public Optional<Book> findById(Long id) {
-        EntityGraph<?> entityGraph = em.getEntityGraph("book-with-author-and-genres");
+        EntityGraph<?> entityGraph = em.getEntityGraph("book-with-all-relations");
         return Optional.ofNullable(em.find(Book.class, id,
                 Collections.singletonMap("javax.persistence.fetchgraph", entityGraph)));
-        //return Optional.ofNullable(em.find(Book.class, id));
     }
 
     @Override
-    @Transactional
     public Book save(Book book) {
         if (book.getId() == null) {
             em.persist(book);
@@ -59,10 +49,8 @@ public class BookRepositoryJpa implements BookRepository {
     }
 
     @Override
-    @Transactional
-    public boolean deleteById(Long id) {
-        Query query = em.createQuery("delete from Book b where b.id = :id");
-        query.setParameter("id", id);
-        return query.executeUpdate() == 1;
+    public void delete(Book book) {
+        // in order to delete all dependent entities using JPA I prefer to use remove over custom delete JPQL
+        em.remove(book);
     }
 }

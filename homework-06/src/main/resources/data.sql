@@ -38,3 +38,4 @@ INSERT INTO books_genres (book_id, genre_id) VALUES (10, 4);
 
 INSERT INTO comments (id, book_id, text, author) VALUES (1, 1, 'This is so cool!', 'Vasil Bykov');
 INSERT INTO comments (id, book_id, text, author) VALUES (2, 1, 'Nice, but can be better', null);
+INSERT INTO comments (id, book_id, text, author) VALUES (3, 4, 'Читается на одном дыхании!', 'Владимир');

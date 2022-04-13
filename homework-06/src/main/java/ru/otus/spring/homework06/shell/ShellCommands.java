@@ -115,7 +115,6 @@ public class ShellCommands {
     @ShellMethod(value = "List all comments in book. Format: 'lc <book-id>'", key = {"lc"})
     public String getAllCommentsInBook(@Min(1) Long id) {
         StringBuilder sb = new StringBuilder();
-        sb.append(BOOK_TABLE_HEADER).append("\n");
         libraryService.getAllCommentsByBookId(id).forEach(comment -> sb.append(libraryConverter.toString(comment)).append("\n"));
         return sb.toString();
     }

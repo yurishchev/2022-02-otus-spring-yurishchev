@@ -1,6 +1,7 @@
 package ru.otus.spring.homework06.service.impl;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.otus.spring.homework06.domain.Author;
 import ru.otus.spring.homework06.domain.Book;
 import ru.otus.spring.homework06.domain.Comment;
@@ -63,14 +64,23 @@ public class LibraryServiceImpl implements LibraryService {
     }
 
     @Override
+    @Transactional
     public Book createBook(String title, Long authorId, List<Long> genreIds) {
-        Book book = createBookModel(null, title, authorId, genreIds);
+        Author author = getValidatedAuthor(authorId);
+        Set<Genre> genres = getValidatedGenres(genreIds);
+        Book book = new Book(null, title, author, genres);
         return bookRepository.save(book);
     }
 
     @Override
+    @Transactional
     public void updateBook(Long id, String title, Long authorId, List<Long> genreIds) {
-        Book book = createBookModel(id, title, authorId, genreIds);
+        Author author = getValidatedAuthor(authorId);
+        Set<Genre> genres = getValidatedGenres(genreIds);
+        Book book = getBookById(id);
+        book.setTitle(title);
+        book.setAuthor(author);
+        book.setGenres(genres);
         try {
             bookRepository.save(book);
         } catch (PersistenceException | IllegalArgumentException e) {
@@ -78,27 +88,28 @@ public class LibraryServiceImpl implements LibraryService {
         }
     }
 
-    private Book createBookModel(Long id, String title, Long authorId, List<Long> genreIds) {
+    private Author getValidatedAuthor(Long authorId) {
         Optional<Author> author = authorRepository.findById(authorId);
         if (author.isEmpty()) {
             throw new AppException("Can't find author with id=" + authorId);
         }
-        Set<Genre> genres = genreIds.stream().map(genreId -> {
+        return author.get();
+    }
+
+    private Set<Genre> getValidatedGenres(List<Long> genreIds) {
+        return genreIds.stream().map(genreId -> {
             Optional<Genre> genre = genreRepository.findById(genreId);
             if (genre.isEmpty()) {
                 throw new AppException("Can't find genre with id=" + genreId);
             }
             return genre.get();
         }).collect(Collectors.toSet());
-
-        return new Book(id, title, author.get(), genres);
     }
 
     @Override
+    @Transactional
     public void deleteBook(Long id) {
-        if (!bookRepository.deleteById(id)) {
-            throw new AppException("Couldn't delete book with id=" + id);
-        }
+        bookRepository.delete(getBookById(id));
     }
 
     ///-------------- Comment ---------------
@@ -118,6 +129,7 @@ public class LibraryServiceImpl implements LibraryService {
     }
 
     @Override
+    @Transactional
     public Comment createComment(Long bookId, String text, String from) {
         Book book = getBookById(bookId);
         Comment comment = new Comment(null, from, text, book);
@@ -125,6 +137,7 @@ public class LibraryServiceImpl implements LibraryService {
     }
 
     @Override
+    @Transactional
     public void updateComment(Long id, String text, String from) {
         Comment comment = getCommentById(id);
         comment.setText(text);
@@ -137,15 +150,8 @@ public class LibraryServiceImpl implements LibraryService {
     }
 
     @Override
+    @Transactional
     public void deleteComment(Long id) {
-/*
-        Comment comment = getCommentById(id);
-        Book book = getBookById(comment.getBook().getId());
-        book.removeComment(comment);
-        commentRepository.deleteById(id);
-*/
-
-
         if (!commentRepository.deleteById(id)) {
             throw new AppException("Couldn't delete comment with id=" + id);
         }

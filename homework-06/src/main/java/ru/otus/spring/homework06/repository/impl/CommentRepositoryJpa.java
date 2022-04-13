@@ -30,7 +30,7 @@ public class CommentRepositoryJpa implements CommentRepository {
     @Override
     public List<Comment> findAllInBook(Long bookId) {
         TypedQuery<Comment> query = em.createQuery(
-                "select b.comments from Book b join fetch b.comments where b.id = :id"
+                "SELECT comments FROM Book b JOIN b.comments comments WHERE b.id = :id"
                 , Comment.class);
         query.setParameter("id", bookId);
         return query.getResultList();
@@ -50,7 +50,7 @@ public class CommentRepositoryJpa implements CommentRepository {
     @Override
     @Transactional
     public boolean deleteById(Long id) {
-        Query query = em.createQuery("delete from Comment c where c.id = :id");
+        Query query = em.createQuery("DELETE FROM Comment c WHERE c.id = :id");
         query.setParameter("id", id);
         return query.executeUpdate() == 1;
     }

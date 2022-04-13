@@ -2,11 +2,9 @@ package ru.otus.spring.homework06.domain;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -15,7 +13,7 @@ import java.util.Set;
 @NoArgsConstructor
 @Entity
 @Table(name = "books")
-@NamedEntityGraph(name = "book-with-author-and-genres",
+@NamedEntityGraph(name = "book-with-all-relations",
         attributeNodes = {
                 @NamedAttributeNode("author"),
                 @NamedAttributeNode("genres"),
@@ -38,11 +36,10 @@ public class Book {
     @JoinTable(name = "books_genres",
             joinColumns = @JoinColumn(name = "book_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "genre_id", referencedColumnName = "id"))
-    private Set<Genre> genres;
+    private Set<Genre> genres = new HashSet<>();
 
-    @Fetch(FetchMode.SUBSELECT)
-    @OneToMany(mappedBy = "book", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Comment> comments;
+    @OneToMany(mappedBy = "book", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Comment> comments = new HashSet<>();
 
 
     public Book(Long id, String title, Author author, Set<Genre> genres) {

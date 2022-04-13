@@ -1,7 +1,6 @@
 package ru.otus.spring.homework06.library;
 
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -10,18 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.otus.spring.homework06.repository.AuthorRepository;
 import ru.otus.spring.homework06.repository.BookRepository;
 import ru.otus.spring.homework06.repository.GenreRepository;
-import ru.otus.spring.homework06.domain.Author;
-import ru.otus.spring.homework06.domain.Book;
-import ru.otus.spring.homework06.domain.Genre;
-import ru.otus.spring.homework06.exception.AppException;
 import ru.otus.spring.homework06.service.LibraryService;
-
-import java.util.List;
-
-import static org.assertj.core.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 
 @DisplayName("Library Service Tests")

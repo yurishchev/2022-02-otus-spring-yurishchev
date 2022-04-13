@@ -22,12 +22,12 @@ public class AuthorRepositoryJpa implements AuthorRepository {
 
     @Override
     public List<Author> findAll() {
-        return em.createQuery("select a from Author a", Author.class).getResultList();
+        return em.createQuery("SELECT a FROM Author a", Author.class).getResultList();
     }
 
     @Override
     public Optional<Author> findById(Long id) {
-        TypedQuery<Author> query = em.createQuery("select a from Author a where a.id = :id", Author.class);
+        TypedQuery<Author> query = em.createQuery("SELECT a FROM Author a WHERE a.id = :id", Author.class);
         query.setParameter("id", id);
         try {
             return Optional.of(query.getSingleResult());

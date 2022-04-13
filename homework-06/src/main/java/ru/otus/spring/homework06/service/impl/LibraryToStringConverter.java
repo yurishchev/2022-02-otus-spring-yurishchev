@@ -30,16 +30,16 @@ public class LibraryToStringConverter implements LibraryConverter {
 
     @Override
     public String toString(Author author) {
-        return String.join("\t", "" + author.getId(), author.getFirstName() + " " + author.getLastName());
+        return String.join("  ", "ID=" + author.getId(), author.getFirstName() + " " + author.getLastName());
     }
 
     @Override
     public String toString(Genre genre) {
-        return String.join("\t", "" + genre.getId(), genre.getName());
+        return String.join("  ", "ID=" + genre.getId(), genre.getName());
     }
 
     @Override
     public String toString(Comment comment) {
-        return String.join("\t", "" + comment.getId(), comment.getText(), comment.getFrom());
+        return String.join("  ", "ID=" + comment.getId(), comment.getText(), comment.getFrom());
     }
 }

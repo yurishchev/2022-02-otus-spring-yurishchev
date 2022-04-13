@@ -4,7 +4,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.context.annotation.Import;
 import ru.otus.spring.homework06.domain.Author;
 import ru.otus.spring.homework06.repository.impl.AuthorRepositoryJpa;
@@ -23,9 +22,6 @@ class AuthorRepositoryJpaTest {
     private static final long EXISTING_AUTHOR_ID = 1;
     private static final String EXISTING_AUTHOR_FIRSTNAME = "Lev";
     private static final String EXISTING_AUTHOR_LASTNAME = "Tolstoy";
-
-    @Autowired
-    private TestEntityManager em;
 
     @Autowired
     private AuthorRepositoryJpa authorRepository;
