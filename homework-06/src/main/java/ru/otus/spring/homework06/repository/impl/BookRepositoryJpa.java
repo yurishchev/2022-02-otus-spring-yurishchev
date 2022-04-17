@@ -5,10 +5,7 @@ import org.springframework.stereotype.Repository;
 import ru.otus.spring.homework06.domain.Book;
 import ru.otus.spring.homework06.repository.BookRepository;
 
-import javax.persistence.EntityGraph;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
+import javax.persistence.*;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;

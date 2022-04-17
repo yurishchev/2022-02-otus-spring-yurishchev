@@ -24,8 +24,7 @@ public class LibraryToStringConverter implements LibraryConverter {
             genres.append(toString(genre)).append("; ");
         }
         String genresInfo = localizer.getMessage("app.book.genre", genres);
-        String commentsInfo = localizer.getMessage("app.book.comment.number", book.getComments().size());
-        return String.join("\t", "" + book.getId(), authorInfo, genresInfo, commentsInfo, book.getTitle());
+        return String.join("\t", "" + book.getId(), authorInfo, genresInfo, book.getTitle());
     }
 
     @Override

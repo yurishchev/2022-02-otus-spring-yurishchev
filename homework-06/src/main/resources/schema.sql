@@ -42,5 +42,5 @@ CREATE TABLE comments
     text    VARCHAR(255) NOT NULL,
     author  VARCHAR(255),
 
-    FOREIGN KEY (book_id) REFERENCES books (id)
+    FOREIGN KEY (book_id) REFERENCES books (id) ON DELETE CASCADE
 );

@@ -1,11 +1,12 @@
 package ru.otus.spring.homework06.domain;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 
@@ -26,10 +27,6 @@ public class Author {
 
     @Column(name = "lastname", nullable = false)
     private String lastName;
-
-    @OneToMany(mappedBy = "author", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @ToString.Exclude
-    private List<Book> books = new ArrayList<>();
 
 
     public Author(Long id, String firstName, String lastName) {

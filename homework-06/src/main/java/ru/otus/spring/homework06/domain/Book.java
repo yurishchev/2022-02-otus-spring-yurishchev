@@ -18,8 +18,7 @@ import java.util.Set;
 @NamedEntityGraph(name = "book-with-all-relations",
         attributeNodes = {
                 @NamedAttributeNode("author"),
-                @NamedAttributeNode("genres"),
-                @NamedAttributeNode("comments")
+                @NamedAttributeNode("genres")
         })
 public class Book {
     @Id
@@ -41,10 +40,6 @@ public class Book {
             inverseJoinColumns = @JoinColumn(name = "genre_id", referencedColumnName = "id"))
     @ToString.Exclude
     private Set<Genre> genres = new HashSet<>();
-
-    @OneToMany(mappedBy = "book", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    @ToString.Exclude
-    private Set<Comment> comments = new HashSet<>();
 
 
     public Book(Long id, String title, Author author, Set<Genre> genres) {

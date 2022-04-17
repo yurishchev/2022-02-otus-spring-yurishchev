@@ -61,7 +61,8 @@ class CommentRepositoryJpaTest {
     void createCommentTest() {
         Book actualBook = em.find(Book.class, EXISTING_BOOK_ID_WITHOUT_COMMENTS);
         assertThat(actualBook).isNotNull();
-        assertThat(actualBook.getComments().size()).isEqualTo(0);
+        List<Comment> actualComments = commentRepository.findAllInBook(actualBook.getId());
+        assertThat(actualComments.size()).isEqualTo(0);
 
         Comment newComment = new Comment(null, NEW_COMMENT_FROM, NEW_COMMENT_TEXT, actualBook);
         commentRepository.save(newComment);
