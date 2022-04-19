@@ -109,7 +109,7 @@ public class LibraryServiceImpl implements LibraryService {
     @Override
     @Transactional
     public void deleteBook(Long id) {
-        bookRepository.delete(getBookById(id));
+        bookRepository.delete(id);
     }
 
     ///-------------- Comment ---------------

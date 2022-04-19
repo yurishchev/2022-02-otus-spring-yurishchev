@@ -46,8 +46,9 @@ public class BookRepositoryJpa implements BookRepository {
     }
 
     @Override
-    public void delete(Book book) {
-        // in order to delete all dependent entities using JPA I prefer to use remove over custom delete JPQL
-        em.remove(book);
+    public void delete(Long id) {
+        Query query = em.createQuery("DELETE FROM Book b WHERE b.id = :id");
+        query.setParameter("id", id);
+        query.executeUpdate();
     }
 }

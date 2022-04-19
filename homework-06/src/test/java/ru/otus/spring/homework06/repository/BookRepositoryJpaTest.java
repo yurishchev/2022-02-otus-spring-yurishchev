@@ -106,11 +106,10 @@ class BookRepositoryJpaTest {
     @DisplayName("Delete book")
     @Test
     void deleteBookTest() {
-        Book actualBook = em.find(Book.class, EXISTING_BOOK_ID);
-        bookRepository.delete(actualBook);
+        bookRepository.delete(EXISTING_BOOK_ID);
         em.flush();
 
-        actualBook = em.find(Book.class, EXISTING_BOOK_ID);
+        Book actualBook = em.find(Book.class, EXISTING_BOOK_ID);
         assertThat(actualBook).isNull();
     }
 }
