@@ -2,6 +2,8 @@ package ru.otus.spring.homework07.domain;
 
 import lombok.*;
 import org.hibernate.Hibernate;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -20,6 +22,10 @@ import java.util.Set;
                 @NamedAttributeNode("author"),
                 @NamedAttributeNode("genres")
         })
+@NamedEntityGraph(name = "book-with-author",
+        attributeNodes = {
+                @NamedAttributeNode("author")
+        })
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,6 +40,7 @@ public class Book {
     @ToString.Exclude
     private Author author;
 
+    @Fetch(FetchMode.SUBSELECT) // TODO it is being ignored by Spring Data JPA for some reason :-(
     @ManyToMany(targetEntity = Genre.class, fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(name = "books_genres",
             joinColumns = @JoinColumn(name = "book_id", referencedColumnName = "id"),

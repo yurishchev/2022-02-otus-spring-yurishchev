@@ -126,7 +126,7 @@ public class LibraryServiceImpl implements LibraryService {
 
     @Override
     public List<Comment> getAllCommentsByBookId(Long bookId) {
-        return commentRepository.findByBook(bookId);
+        return commentRepository.findByBookId(bookId);
     }
 
     @Override

@@ -25,10 +25,10 @@ class CommentRepositoryJpaTest {
     @DisplayName("Get all comments for specified book")
     @Test
     void getAllCommentsForSpecifiedBook() {
-        List<Comment> actualComments = commentRepository.findByBook(EXISTING_BOOK_ID_WITH_COMMENTS);
+        List<Comment> actualComments = commentRepository.findByBookId(EXISTING_BOOK_ID_WITH_COMMENTS);
         assertThat(actualComments).hasSize(COMMENTS_COUNT);
 
-        actualComments = commentRepository.findByBook(EXISTING_BOOK_ID_WITHOUT_COMMENTS);
+        actualComments = commentRepository.findByBookId(EXISTING_BOOK_ID_WITHOUT_COMMENTS);
         assertThat(actualComments).hasSize(0);
     }
 }
