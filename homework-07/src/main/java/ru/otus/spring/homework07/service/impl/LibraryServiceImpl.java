@@ -38,11 +38,13 @@ public class LibraryServiceImpl implements LibraryService {
         this.commentRepository = commentRepository;
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<Author> getAllAuthors() {
         return authorRepository.findAll();
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<Genre> getAllGenres() {
         return genreRepository.findAll();
@@ -50,11 +52,13 @@ public class LibraryServiceImpl implements LibraryService {
 
     ///-------------- Book ---------------
 
+    @Transactional(readOnly = true)
     @Override
     public List<Book> getAllBooks() {
         return bookRepository.findAll();
     }
 
+    @Transactional(readOnly = true)
     @Override
     public Book getBookById(Long id) {
         Optional<Book> book = bookRepository.findById(id);
@@ -115,6 +119,7 @@ public class LibraryServiceImpl implements LibraryService {
 
     ///-------------- Comment ---------------
 
+    @Transactional(readOnly = true)
     @Override
     public Comment getCommentById(Long id) {
         Optional<Comment> comment = commentRepository.findById(id);
@@ -124,6 +129,7 @@ public class LibraryServiceImpl implements LibraryService {
         return comment.get();
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<Comment> getAllCommentsByBookId(Long bookId) {
         return commentRepository.findByBookId(bookId);
